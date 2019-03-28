@@ -1,41 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Groceries
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 <ion-list>
-  <ion-item-sliding>
+  <ion-item-sliding *ngFor="let item of items; let i = index">
     <ion-item>
-      <ion-label>Milk</ion-label>
-      <p>1</p>
+      <ion-label>{{item.name}}</ion-label>
+      <p>{{item.quantity}}</p>
     </ion-item>
     <ion-item-options side="end">
-      <ion-item-option>Done</ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item>
-      <ion-label>Eggs</ion-label>
-      <p>2</p>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option>Done</ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-item-sliding>
-    <ion-item>
-      <ion-label>Bacon</ion-label>
-      <p>4</p>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option>Done</ion-item-option>
+      <ion-item-option (click)="removeItem(i)">Done</ion-item-option>
     </ion-item-options>
   </ion-item-sliding>
 </ion-list>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
 </ion-content>
