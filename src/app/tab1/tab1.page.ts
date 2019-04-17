@@ -1,33 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { GroceriesService } from '../groceries.service';
 import { InputDialogService } from '../input-dialog.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
-  constructor(public alertController: AlertController, public groceriesService: GroceriesService, public inputDialogService: InputDialogService, private socialSharing: SocialSharing) {}
+export class Tab1Page implements OnInit {
+  constructor(public alertController: AlertController, public groceriesService: GroceriesService, public inputDialogService: InputDialogService, private socialSharing: SocialSharing) {
+    groceriesService.dataChanged$.subscribe((dataChanged: boolean) => {
+      this.loadItems();
+    });
+  }
+
+  ngOnInit(){
+    this.loadItems();
+ }
 
   title = 'Grocery List';
 
+  items$: Observable<object[]>;
+  errorMsg: string;
+
   loadItems() {
-    return this.groceriesService.getItems();
+    this.items$ = this.groceriesService.getItems()
   }
 
   removeItem(i: number) {
-    this.groceriesService.removeItem(i);
+    this.items$ = this.groceriesService.removeItem(i);
   }
 
   addItem() {
     this.inputDialogService.showPrompt()
   }
 
-  editItem(item: {name: string, quantity: number}, i: number) {
-    this.inputDialogService.showPrompt(item, i)
+  editItem(item: {name: string, quantity: number}, id: string) {
+    this.inputDialogService.showPrompt(item, id)
   }
 
   shareItem(item: {name: string, quantity: number}, i: number) {

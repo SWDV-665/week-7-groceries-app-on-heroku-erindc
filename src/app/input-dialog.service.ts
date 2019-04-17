@@ -9,7 +9,7 @@ export class InputDialogService {
 
   constructor(public groceriesService: GroceriesService, public alertController: AlertController) { }
 
-  async showPrompt(item?: {name: string, quantity: number} , index?: number) {
+  async showPrompt(item?: {name: string, quantity: number} , id?: string) {
     const prompt = await this.alertController.create({
       header: item === undefined ? 'Add grocery item' : 'Edit grocery item',
       inputs: [
@@ -39,8 +39,8 @@ export class InputDialogService {
         }, {
           text: 'Ok',
           handler: (data) => {
-            if (index !== undefined) {
-              this.groceriesService.editItem(data, index);
+            if (id !== undefined) {
+              this.groceriesService.editItem(data, id);
             } else {
               this.groceriesService.addItem(data);
             }
