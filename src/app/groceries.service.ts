@@ -13,7 +13,7 @@ export class GroceriesService {
   dataChanged$: Observable<boolean>;
   private dataChangeSubject: Subject<boolean>;
 
-  baseUrl = 'http://localhost:8080'
+  baseUrl = 'https://groceries-server-app.herokuapp.com'
 
   constructor(private http: HttpClient) {
     this.dataChangeSubject = new Subject<boolean>();
